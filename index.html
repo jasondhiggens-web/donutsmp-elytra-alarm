@@ -171,7 +171,7 @@
           <div id="status" class="hero-note" role="status" aria-live="polite">Connecting to price source…</div>
           <div class="hero-meta">
             <div class="datum"><span>Your alert threshold</span><strong id="heroTarget">$445.00M</strong></div>
-            <div class="datum"><span>Scan frequency</span><strong>Every 60 seconds</strong></div>
+            <div class="datum"><span>Scan frequency</span><strong id="countdown">Next check in 10s</strong></div>
             <div class="datum"><span>Price points</span><strong id="pointCount">0</strong></div>
           </div>
         </div>
@@ -223,7 +223,7 @@
     </aside>
   </div>
 
-  <footer class="footer"><div><strong>TechyMC → ORIGINAL DESIGNER</strong> · Automatic checks every 60 seconds · Keep this tab open for notifications</div><div>Credits to <a href="https://donut.auction/" target="_blank" rel="noopener noreferrer">Donut.Auction</a> · Unofficial fan-made tracker</div></footer>
+  <footer class="footer"><div><strong>TechyMC → ORIGINAL DESIGNER</strong> · Automatic checks every 10 seconds · Keep this tab open for notifications</div><div>Credits to <a href="https://donut.auction/" target="_blank" rel="noopener noreferrer">Donut.Auction</a> · Unofficial fan-made tracker</div></footer>
 </div>
 <script>
 'use strict';
@@ -266,9 +266,17 @@ $('chart').addEventListener('mousemove',e=>{if(!history.length)return;const rect
 $('chart').addEventListener('mouseleave',()=>{hoveredIndex=-1;$('chartTooltip').style.display='none';drawChart();});
 window.addEventListener('resize',drawChart);
 window.addEventListener('storage',e=>{if(e.key==='elytra_purchases'){const next=load('purchases',[]);if(Array.isArray(next)){purchases=next.map(p=>typeof p==='number'?{qty:1,each:p}:p).filter(p=>p&&Number.isSafeInteger(p.qty)&&p.qty>0&&Number.isFinite(p.each)&&p.each>0);renderPurchases();}}});
-async function check(){if(busy)return;busy=true;$('status').textContent='Checking the Donut.Auction market…';try{const r=await fetch('/api/price',{cache:'no-store'});if(!r.ok)throw Error('Price server returned '+r.status);const d=await r.json();if(d.verified!==true||!Number.isFinite(d.price)||d.price<=0)throw Error(d.error||'The server did not verify a live price.');lastPrice=d.price;$('price').textContent=fmt(lastPrice);$('status').textContent='● Price verified · Connected to Donut.Auction';$('status').className='hero-note good';$('topHealth').textContent='PRICE FEED LIVE';$('topHealth').className='health-pill ok';$('connection').textContent='Live price verified. Connected to price server.';$('connection').className='';history.push({p:lastPrice,t:Date.now()});history=history.slice(-150);store('history',history);drawChart();renderPurchases();if(lastPrice<=target*1e6&&!alerted){if('Notification'in window&&Notification.permission==='granted'){try{new Notification('DonutSMP · Elytra price alert',{body:fmt(lastPrice)+' is at or below your target '+fmt(target*1e6),icon:'logo.png'});alerted=true;}catch{}}}if(lastPrice>target*1e6)alerted=false;}catch(err){$('status').textContent='Price not verified · See connection diagnostics';$('status').className='hero-note bad';$('topHealth').textContent='FEED UNAVAILABLE';$('topHealth').className='health-pill bad';$('connection').textContent='Price check failed: '+err.message;$('connection').className='error';}finally{$('lastChecked').textContent='Last check: '+new Date().toLocaleTimeString();$('headerLastChecked').textContent='LAST CHECK '+time(Date.now());busy=false;}}
+const REFRESH_MS=10000;
+let nextCheckAt=Date.now()+REFRESH_MS;
+function updateCountdown(){
+ if(busy){$('countdown').textContent='Checking now…';return;}
+ const remaining=Math.max(0,Math.ceil((nextCheckAt-Date.now())/1000));
+ $('countdown').textContent='Next check in '+remaining+'s';
+ if(remaining===0)check();
+}
+async function check(){if(busy)return;busy=true;updateCountdown();$('status').textContent='Checking the Donut.Auction market…';try{const r=await fetch('/api/price',{cache:'no-store'});if(!r.ok)throw Error('Price server returned '+r.status);const d=await r.json();if(d.verified!==true||!Number.isFinite(d.price)||d.price<=0)throw Error(d.error||'The server did not verify a live price.');lastPrice=d.price;$('price').textContent=fmt(lastPrice);$('status').textContent='● Price verified · Connected to Donut.Auction';$('status').className='hero-note good';$('topHealth').textContent='PRICE FEED LIVE';$('topHealth').className='health-pill ok';$('connection').textContent='Live price verified. Connected to price server.';$('connection').className='';history.push({p:lastPrice,t:Date.now()});history=history.slice(-150);store('history',history);drawChart();renderPurchases();if(lastPrice<=target*1e6&&!alerted){if('Notification'in window&&Notification.permission==='granted'){try{new Notification('DonutSMP · Elytra price alert',{body:fmt(lastPrice)+' is at or below your target '+fmt(target*1e6),icon:'logo.png'});alerted=true;}catch{}}}if(lastPrice>target*1e6)alerted=false;}catch(err){$('status').textContent='Price not verified · See connection diagnostics';$('status').className='hero-note bad';$('topHealth').textContent='FEED UNAVAILABLE';$('topHealth').className='health-pill bad';$('connection').textContent='Price check failed: '+err.message;$('connection').className='error';}finally{$('lastChecked').textContent='Last check: '+new Date().toLocaleTimeString();$('headerLastChecked').textContent='LAST CHECK '+time(Date.now());busy=false;nextCheckAt=Date.now()+REFRESH_MS;updateCountdown();}}
 $('check').addEventListener('click',check);
-permission();renderPurchases();drawChart();check();setInterval(check,60000);
+permission();renderPurchases();drawChart();check();setInterval(updateCountdown,250);
 </script>
 </body>
 </html>

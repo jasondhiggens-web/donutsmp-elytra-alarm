@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 URL = 'https://donut.auction/item/c4c7f62a-d21a-4e94-b6a3-355a15349705'
 SELECTOR = '.price-ticker span.sr-only'
-CACHE_SECONDS = 55
+CACHE_SECONDS = 9
 _lock = threading.Lock()
 _cached = None
 _cached_until = 0
@@ -62,7 +62,7 @@ def price_payload():
             _cached_until = time.time() + CACHE_SECONDS
         except Exception as exc:
             result = {'verified': False, 'error': f'{type(exc).__name__}: {str(exc)[:190]}', 'checked_at': int(time.time())}
-            _cached_until = time.time() + 15
+            _cached_until = time.time() + CACHE_SECONDS
         _cached = result
         return result
 
