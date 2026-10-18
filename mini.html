@@ -9,7 +9,28 @@ const $=id=>document.getElementById(id);
 const fmt=v=>'$'+(v>=1e9?(v/1e9).toFixed(3)+'B':(v/1e6).toFixed(2)+'M');
 let history=[],busy=false;
 try{const raw=JSON.parse(localStorage.getItem('elytra_history')||'[]');if(Array.isArray(raw))history=raw.filter(x=>x&&Number.isFinite(x.p)&&Number.isFinite(x.t)).slice(-80)}catch{}
-function draw(){const c=$('graph'),r=c.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2),w=Math.max(200,r.width),h=Math.max(100,r.height);c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);const x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);x.strokeStyle='#493353';x.fillStyle='#aa98b9';x.font='10px Arial';for(let i=1;i<=3;i++){x.beginPath();x.moveTo(8,i*h/4);x.lineTo(w-8,i*h/4);x.stroke()}if(!history.length){x.fillText('Waiting for verified prices…',15,h/2);return}const a=history.map(v=>v.p),lo=Math.min(...a)-2e6,hi=Math.max(...a)+2e6;const y=p=>12+(hi-p)/(hi-lo)*(h-24);x.strokeStyle='#d979ff';x.lineWidth=2;x.beginPath();history.forEach((p,i)=>{const px=12+i*(w-24)/Math.max(1,history.length-1);if(i)x.lineTo(px,y(p.p));else x.moveTo(px,y(p.p))});x.stroke();x.fillStyle='#eaa2ff';history.forEach((p,i)=>{const px=12+i*(w-24)/Math.max(1,history.length-1);x.beginPath();x.arc(px,y(p.p),2,0,Math.PI*2);x.fill()})}
+function draw(){
+ const c=$('graph'),r=c.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);
+ const w=Math.max(200,r.width),h=Math.max(100,r.height);
+ c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);
+ const x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);
+ const left=58,right=w-10,top=13,bottom=h-12;
+ x.font='10px Arial';x.textAlign='right';x.textBaseline='middle';
+ if(!history.length){x.fillStyle='#aa98b9';x.textAlign='left';x.fillText('Waiting for verified prices…',left, h/2);return}
+ const prices=history.map(v=>v.p),min=Math.min(...prices),max=Math.max(...prices);
+ const padding=Math.max(1e6,(max-min)*0.12),lo=min-padding,hi=max+padding;
+ const y=p=>top+(hi-p)/(hi-lo)*(bottom-top);
+ // Left axis labels match the horizontal grid lines and actual price scale.
+ for(let i=0;i<=4;i++){
+   const val=hi-(hi-lo)*i/4,py=top+(bottom-top)*i/4;
+   x.strokeStyle='#493353';x.lineWidth=1;x.beginPath();x.moveTo(left,py);x.lineTo(right,py);x.stroke();
+   x.fillStyle='#d8b5eb';x.fillText('$'+(val/1e6).toFixed(1)+'M',left-7,py);
+ }
+ x.strokeStyle='#d979ff';x.lineWidth=2;x.beginPath();
+ history.forEach((p,i)=>{const px=left+4+i*(right-left-8)/Math.max(1,history.length-1);if(i)x.lineTo(px,y(p.p));else x.moveTo(px,y(p.p))});x.stroke();
+ x.fillStyle='#eaa2ff';history.forEach((p,i)=>{const px=left+4+i*(right-left-8)/Math.max(1,history.length-1);x.beginPath();x.arc(px,y(p.p),1.8,0,Math.PI*2);x.fill()});
+}
+
 async function check(){if(busy)return;busy=true;$('status').textContent='Checking Donut.Auction…';try{const r=await fetch('/api/price',{cache:'no-store'});if(!r.ok)throw Error('Server returned '+r.status);const d=await r.json();if(d.verified!==true||!Number.isFinite(d.price)||d.price<=0)throw Error(d.error||'No verified price');$('price').textContent=fmt(d.price);$('status').textContent='● Connected • Price verified';$('status').className='status ok';history.push({p:d.price,t:Date.now()});history=history.slice(-80);try{localStorage.setItem('elytra_history',JSON.stringify(history))}catch{}draw()}catch(e){$('status').textContent='Price not verified: '+e.message;$('status').className='status'}finally{$('last').textContent='Last checked: '+new Date().toLocaleTimeString();busy=false}}
 $('refresh').onclick=check;window.addEventListener('resize',draw);window.addEventListener('storage',e=>{if(e.key==='elytra_history'){try{const h=JSON.parse(e.newValue||'[]');if(Array.isArray(h)){history=h.filter(x=>x&&Number.isFinite(x.p)&&Number.isFinite(x.t)).slice(-80);draw()}}catch{}}});draw();check();setInterval(check,60000);
 </script></body></html>
