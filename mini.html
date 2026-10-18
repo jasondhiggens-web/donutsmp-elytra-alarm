@@ -26,7 +26,15 @@
  .bottom{border-top:1px solid #382840;margin-top:19px;padding-top:11px;font:400 10px 'DM Mono',Consolas,monospace;color:#a894b5;line-height:1.55}
  .credit{margin-top:5px;color:#8c7a9c} .credit strong{color:#cab0e6;font-weight:500}
  @media(max-width:335px){.head{padding:12px}main{padding:12px}.graph-panel{padding:12px 5px}.price-panel{padding:12px}}
- </style>
+
+    html { scrollbar-color:#9d6dc4 #100b17;scrollbar-width:thin; }
+    ::-webkit-scrollbar { width:10px;height:10px; }
+    ::-webkit-scrollbar-track { background:#100b17; }
+    ::-webkit-scrollbar-thumb { background:#9d6dc4;border:2px solid #100b17;border-radius:999px;min-height:40px; }
+    ::-webkit-scrollbar-thumb:hover { background:#d9b8ff; }
+    ::-webkit-scrollbar-thumb:active { background:#ba86ff; }
+    ::-webkit-scrollbar-corner { background:#100b17; }
+  </style>
 </head>
 <body>
  <header class="head"><div class="brand"><img src="logo.png" alt="Elytra" width="39" height="39"><div><strong>DONUTSMP<span style="color:#bb7bef">.</span></strong><small>MINI MARKET WATCH</small></div></div><span id="dot" class="dot" role="status" aria-label="Connecting"></span></header>
