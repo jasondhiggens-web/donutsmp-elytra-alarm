@@ -2,9 +2,11 @@
 
 Only publishes a price when exactly one valid ticker value was found.
 """
+from contextlib import contextmanager
 import json
 import os
 import re
+import sqlite3
 import threading
 import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -14,6 +16,35 @@ ROOT = Path(__file__).resolve().parent
 URL = 'https://donut.auction/item/c4c7f62a-d21a-4e94-b6a3-355a15349705'
 SELECTOR = '.price-ticker span.sr-only'
 CACHE_SECONDS = 55
+HISTORY_DB = Path(os.environ.get("HISTORY_DB", str(ROOT / "data" / "history.sqlite3")))
+RETENTION_SECONDS = 24 * 60 * 60
+
+@contextmanager
+def history_connection():
+    HISTORY_DB.parent.mkdir(parents=True, exist_ok=True)
+    db = sqlite3.connect(HISTORY_DB, timeout=10)
+    db.execute("CREATE TABLE IF NOT EXISTS prices (t INTEGER PRIMARY KEY, p REAL NOT NULL)")
+    try:
+        with db:
+            yield db
+    finally:
+        db.close()
+
+def record_price(value, timestamp):
+    with history_connection() as db:
+        db.execute("INSERT OR REPLACE INTO prices(t, p) VALUES (?, ?)", (timestamp * 1000, value))
+        db.execute("DELETE FROM prices WHERE t < ?", ((timestamp - RETENTION_SECONDS) * 1000,))
+
+def history_payload():
+    with history_connection() as db:
+        rows = db.execute("SELECT t, p FROM prices WHERE t >= ? ORDER BY t", ((int(time.time()) - RETENTION_SECONDS) * 1000,)).fetchall()
+    return {"history": [{"t": t, "p": p} for t, p in rows]}
+
+def collect_history():
+    while True:
+        price_payload()
+        time.sleep(60)
+
 _lock = threading.Lock()
 _cached = None
 _cached_until = 0
@@ -59,6 +90,7 @@ def price_payload():
         try:
             value = retrieve_price()
             result = {'verified': True, 'price': value, 'source': URL, 'checked_at': int(time.time())}
+            record_price(value, result['checked_at'])
             _cached_until = time.time() + CACHE_SECONDS
         except Exception as exc:
             result = {'verified': False, 'error': f'{type(exc).__name__}: {str(exc)[:190]}', 'checked_at': int(time.time())}
@@ -72,9 +104,10 @@ class Handler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(ROOT), **kwargs)
 
     def do_GET(self):
-        if self.path.split('?', 1)[0] != '/api/price':
+        route = self.path.split('?', 1)[0]
+        if route not in ('/api/price', '/api/history'):
             return super().do_GET()
-        body = json.dumps(price_payload()).encode('utf-8')
+        body = json.dumps(history_payload() if route == '/api/history' else price_payload()).encode('utf-8')
         self.send_response(200)
         self.send_header('Content-Type', 'application/json; charset=utf-8')
         self.send_header('Cache-Control', 'no-store')
@@ -87,6 +120,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 if __name__ == '__main__':
+    threading.Thread(target=collect_history, daemon=True).start()
     port = int(os.environ.get('PORT', '8000'))
     print(f'Listening on port {port}', flush=True)
     ThreadingHTTPServer(('0.0.0.0', port), Handler).serve_forever()
