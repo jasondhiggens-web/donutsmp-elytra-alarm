@@ -27,9 +27,10 @@
     button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid #e8bcff; outline-offset: 3px; }
     a { color: inherit; text-decoration: none; }
     .shell { width: min(1460px, calc(100% - 48px)); margin: 28px auto 30px; }
-    .community-link { display:flex;justify-content:flex-end;margin:0 2px 9px;font-size:11px;line-height:1.5; }
-    .community-link a { color:var(--bright);text-decoration:underline;text-underline-offset:3px;padding:3px 0; }
-    .community-link a:hover { color:var(--text); }
+    .community-link { display:flex;justify-content:flex-end;margin:0 2px 12px;font-size:15px;line-height:1.5;font-weight:700; }
+    .community-link a { display:inline-flex;align-items:center;gap:10px;min-height:46px;padding:10px 16px;color:#fff;background:#5865f2;border:1px solid #8790ff;border-radius:10px;box-shadow:0 4px 18px #5865f233; }
+    .community-link svg { width:26px;height:26px;flex-shrink:0;fill:currentColor; }
+    .community-link a:hover { background:#4752c4; }
     .topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 15px 21px; background: #100d16e8; border: 1px solid #49375a; border-radius: 13px; box-shadow: 0 16px 65px #0005; }
     .identity { display: flex; align-items: center; gap: 13px; min-width: 0; }
     .identity img { width: 47px; height: 47px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 1px 14px #b36aff44); }
@@ -148,7 +149,7 @@
 </head>
 <body>
 <div class="shell">
-  <div class="community-link"><a href="https://discord.gg/VB2PvWtc7" target="_blank" rel="noopener noreferrer">Join our Discord ↗</a></div>
+  <div class="community-link"><a href="https://discord.gg/VB2PvWtc7" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .078-.01c3.927 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .079.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.04.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .03-.056c.5-5.177-.838-9.674-3.548-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.418 2.157-2.418 1.21 0 2.176 1.095 2.157 2.418 0 1.334-.956 2.42-2.157 2.42zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.418 2.157-2.418 1.21 0 2.176 1.095 2.157 2.418 0 1.334-.946 2.42-2.157 2.42z"/></svg><span>Join our Discord ↗</span></a></div>
   <header class="topbar">
     <div class="identity">
       <img src="logo.png" alt="Elytra icon" width="47" height="47">
