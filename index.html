@@ -1,66 +1,274 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#150e1e"><title>DonutSMP Elytra Alarm • Purple Edition</title><link rel="icon" href="logo.png">
-<style>
-:root{color-scheme:dark;font-family:Arial,'Segoe UI',sans-serif;--bg:#15131b;--line:#3e304e;--violet:#7a25bf;--pink:#db6aff;--muted:#b0a5c0}*{box-sizing:border-box}body{margin:0;background:#100717 url('background.jpg') center/cover fixed;color:#fff;min-height:100vh}button,input{font:inherit}button{border:0;border-radius:0;background:#6f25b6;color:#fff;font-size:12px;font-weight:800;cursor:pointer;min-height:37px;padding:10px 15px}button:hover{filter:brightness(1.18)}button:focus-visible,input:focus-visible{outline:2px solid #e6a2ff;outline-offset:2px}button.secondary{background:#292433}button.warn{background:#5a315e}.shell{max-width:1650px;margin:20px auto;background:#15131b;border:1px solid #453451;box-shadow:0 15px 70px #000b;min-height:calc(100vh - 40px)}.top{height:84px;border-bottom:1px solid #493650;display:flex;align-items:center;justify-content:space-between;padding:12px 24px;gap:15px}.brand{display:flex;align-items:center;gap:14px}.brand img{width:56px;height:56px;object-fit:contain}.brand h1{font-family:Georgia,serif;font-size:26px;letter-spacing:.03em;margin:0}.brand small{display:block;color:#d04dff;font-size:11px;font-weight:800;margin-top:3px}.edition{color:#d77dff;font-size:11px;font-weight:800;letter-spacing:.08em}.layout{display:grid;grid-template-columns:minmax(330px,40%) minmax(0,60%);gap:10px;padding:10px}.left,.right{min-width:0}.left{border:1px solid #49354c;padding:16px;background:#17151e}.right{display:flex;flex-direction:column;gap:10px}.panel{background:#15131b;border:1px solid #49354c;padding:16px}.panel h2{font:800 14px Georgia,serif;letter-spacing:.015em;margin:0 0 14px}.field{margin-bottom:13px}label{display:block;font-size:11px;color:#b7aac8;font-weight:800;margin-bottom:7px;text-transform:uppercase}input{display:block;width:100%;background:#261d30;color:white;border:1px solid #685077;border-radius:0;padding:10px 11px;height:39px}input::placeholder{color:#8f7d9e}.help{font-size:11px;color:#b6a9c5;margin:7px 0 12px}.button-row{display:flex;gap:6px}.button-row>*{flex:1}.wide{width:100%}.section-title{font:800 14px Georgia,serif;color:#dc74ff;margin:20px 0 14px}.static-check{background:#261c30;border-left:3px solid #ab56ef;padding:11px 12px;font-size:12px;margin:0 0 13px;color:#e2d5ee}.static-check strong{color:#fff}.price-panel{padding:18px 18px 15px}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.03em;margin-bottom:11px}.price-box{display:inline-block;min-width:300px;max-width:100%;background:#e7d0ff;color:#080410;padding:9px 16px;font-size:clamp(30px,4vw,44px);font-weight:900;border-radius:11px;line-height:1.2}.price-sub{font-size:11px;color:#b1a2c0;margin-top:6px}.status{font-size:12px;margin-top:10px;color:#f0b0d0}.status.ok{color:#65e8ae}.graph-panel{flex:1;min-height:330px}.graph-title{font:800 15px Georgia,serif;margin:0 0 8px}.chart-wrap{width:100%;height:290px;position:relative}canvas{width:100%;height:100%;display:block}.chart-foot{display:flex;justify-content:space-between;color:#a79ab6;font-size:11px;margin-top:4px}.profit{background:#251830;border:1px solid #50345c;padding:13px 15px;margin-top:14px}.profit .caption{font-size:11px;color:#b6a4c8;font-weight:800}.profit strong{display:block;color:#46e5b1;font-size:19px;margin-top:8px}.profit strong.negative{color:#ff91af}.conn{min-height:80px}.conn-title{font-size:11px;color:#b8a9c8;font-weight:800;margin-bottom:10px}.conn p{font-size:12px;margin:0 0 6px;overflow-wrap:anywhere}.conn small{color:#a99bb9}.purchase-list{max-height:175px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;margin-top:8px}.purchase{display:flex;align-items:center;justify-content:space-between;gap:9px;background:#292032;padding:8px 10px;font-size:12px}.purchase button{min-height:27px;padding:6px 9px;font-size:11px}.purchase-actions{display:flex;gap:5px;flex-shrink:0}.purchase span{overflow-wrap:anywhere}.purchase-summary{display:flex;justify-content:space-between;color:#c7b4d5;font-size:12px;margin:10px 0}.footer{color:#b1a4c0;font-size:11px;padding:4px 12px 10px}.notice{color:#b7a9c7;font-size:11px;line-height:1.5;margin-top:10px}.error{color:#ffb0c7!important}.flash{color:#e7adff}@media(max-width:850px){.shell{margin:0;min-height:100vh}.layout{grid-template-columns:1fr}.top{height:auto;min-height:76px}.brand h1{font-size:22px}.edition{font-size:9px}.chart-wrap{height:240px}.graph-panel{min-height:0}}@media(max-width:460px){.top{padding:12px}.layout{padding:6px;gap:6px}.left,.panel{padding:12px}.price-box{min-width:0;width:100%}.brand img{width:44px;height:44px}.brand h1{font-size:19px}}
-</style></head><body><div class="shell"><header class="top"><div class="brand"><img src="logo.png" alt="Elytra"><div><h1>DONUTSMP</h1><small>ELYTRA / MARKET ALERT</small></div></div><div class="edition"><button id="miniOpen" type="button" title="Open movable, resizable mini tracker" style="background:#7a25bf;border:1px solid #bf78ff;padding:8px 12px">◈ MINI PRICE WINDOW ↗</button></div></header>
-<div class="layout"><aside class="left">
-<div class="field"><label for="target">TARGET PRICE • $ MILLION (445 = $445M)</label><input id="target" type="number" min="0.01" step="any" value="445"><button id="saveTarget" class="wide" type="button" style="margin-top:8px">SAVE TARGET PRICE</button><div id="targetSaved" class="help" role="status" aria-live="polite">Current target: $445.00M</div></div>
-<div class="static-check"><strong>AUTOMATIC PRICE CHECKING</strong><div class="help" style="margin-bottom:0">Checks when the page opens and every <strong>60 seconds</strong> after that. No setup needed.</div></div>
-<div class="button-row"><button id="check">CHECK PRICE NOW</button><button id="openAuction" class="secondary">OPEN DONUT.AUCTION</button></div>
-<div class="section-title">ALARM CONTROLS</div><div class="button-row"><button id="notify">ENABLE PC NOTIFICATIONS</button><button id="test" class="secondary">TEST ALARM</button></div>
-<div class="notice" id="notificationHelp">Keep this website tab open to receive price alerts. Allow notifications in Chrome or Edge.</div>
-<div class="section-title">MY ELYTRA PURCHASES</div>
-<div class="field"><label for="quantity">HOW MANY ELYTRAS BOUGHT</label><input id="quantity" type="number" min="1" step="1" placeholder="e.g. 18"></div>
-<div class="field"><label for="buyPrice">PRICE EACH • $ MILLION</label><input id="buyPrice" type="number" min="0.01" step="any" placeholder="e.g. 340"></div>
-<button class="wide" id="add">ADD PURCHASE</button><div class="help">Enter 18 and 340 for 18 Elytras bought at $340M each. Purchases save on this device.</div>
-<div class="section-title">EDIT OR REMOVE A SAVED PURCHASE</div><div class="help">Use EDIT QTY to change how many Elytras you bought. Profit updates automatically.</div><div id="purchases" class="purchase-list"></div>
-<div class="purchase-summary"><span>Total Elytras owned</span><strong id="count">0</strong></div>
-</aside><main class="right">
-<section class="panel price-panel"><div class="eyebrow">LATEST VERIFIED ELYTRA PRICE</div><div class="price-box" id="price">—</div><div class="price-sub">MILLION ($M) • MARKET PRICE PER ELYTRA</div><div class="status" id="status" role="status" aria-live="polite">Checking for a verified price…</div></section>
-<section class="panel graph-panel"><h2 class="graph-title">PRICE HISTORY • THIS BROWSER</h2><div class="chart-wrap"><canvas id="chart"></canvas></div><div class="chart-foot"><span id="firstTime">No verified prices yet</span><span id="lastTime"></span></div><div class="profit"><div class="caption">YOUR ELYTRA PROFIT / LOSS</div><strong id="profit">Owned: 0 • Est. P/L: —</strong></div></section>
-<section class="panel conn"><div class="conn-title">CONNECTION STATUS</div><p id="connection">Connecting to price server…</p><small id="lastChecked">Last checked: Never</small><p class="notice">Unofficial fan-made tracker. Not affiliated with DonutSMP or Donut.Auction. Prices are only shown when verified.</p></section>
-</main></div><footer class="footer">TechyMC --> ORIGINAL DESIGNER • Automatic checks every 60 seconds • Keep this tab open for notifications • Credits to Donut.Auction</footer></div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0d0a13">
+  <meta name="description" content="A live DonutSMP Elytra market watch dashboard, price alerts, price history and inventory profit tracker.">
+  <link rel="icon" href="logo.png">
+  <title>DonutSMP · Elytra Market Watch</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    :root {
+      color-scheme: dark;
+      --bg: #0a0810; --surface: #15111d; --surface2: #1b1624; --edge: #33283e;
+      --faint: #7f718e; --muted: #aca1b8; --text: #f6f0ff; --violet: #ba86ff;
+      --bright: #d9b8ff; --plum: #7d3ac2; --mint: #77edb3; --rose: #ff9fb4;
+      --heading: 'Space Grotesk','Trebuchet MS',sans-serif;
+      --mono: 'DM Mono','Consolas',monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; min-height: 100vh; color: var(--text); font-family: var(--heading); background: var(--bg); }
+    body::before { content: ''; position: fixed; z-index: -2; inset: 0; background: url('background.jpg') center/cover no-repeat; filter: saturate(.7) contrast(1.15); opacity: .22; pointer-events: none; }
+    body::after { content: ''; position: fixed; z-index: -1; inset: 0; background: linear-gradient(115deg, #09070eeb, #0d0814dc 55%, #130d19e8); pointer-events: none; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid #e8bcff; outline-offset: 3px; }
+    a { color: inherit; text-decoration: none; }
+    .shell { width: min(1460px, calc(100% - 48px)); margin: 28px auto 30px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 15px 21px; background: #100d16e8; border: 1px solid #49375a; border-radius: 13px; box-shadow: 0 16px 65px #0005; }
+    .identity { display: flex; align-items: center; gap: 13px; min-width: 0; }
+    .identity img { width: 47px; height: 47px; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 1px 14px #b36aff44); }
+    .wordmark { display: flex; flex-direction: column; }
+    .wordmark strong { line-height: 1.05; font-size: 20px; letter-spacing: -.055em; }
+    .wordmark small { margin-top: 5px; font-size: 10px; letter-spacing: .19em; font-family: var(--mono); color: var(--bright); font-weight: 500; }
+    .top-actions { display: flex; align-items: center; gap: 11px; flex-wrap: wrap; justify-content: flex-end; }
+    .health-pill { display: inline-flex; align-items: center; gap: 8px; color: #cbc0d8; padding: 9px 12px; border: 1px solid #342941; border-radius: 999px; font-family: var(--mono); font-size: 10px; background: #191422; white-space: nowrap; }
+    .health-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #9a849d; box-shadow: 0 0 10px #8c7d9f88; }
+    .health-pill.ok::before { background: var(--mint); box-shadow: 0 0 10px #6ae5a98c; }
+    .health-pill.bad::before { background: var(--rose); box-shadow: 0 0 10px #ed91a16e; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid transparent; border-radius: 9px; font-weight: 700; font-size: 12px; padding: 11px 15px; min-height: 41px; transition: background .16s, transform .16s, border-color .16s; white-space: nowrap; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.primary { background: var(--bright); color: #1c0f2a; }
+    .btn.primary:hover { background: #eacfff; }
+    .btn.ghost { background: #21192c; border-color: #443152; color: #e8d7f7; }
+    .btn.ghost:hover { background: #34223f; }
+    .btn.subtle { background: transparent; border-color: #4a355b; color: #d5b5fa; }
+    .btn.subtle:hover { background: #2e203d; }
+    .btn.warn { color: #ffc0cd; background: #45202f; border-color: #6e3a4b; }
+    .btn.small { font-size: 11px; min-height: 34px; padding: 8px 11px; }
+    .btn.icon-only { width: 40px; padding: 0; font-size: 19px; }
+    .top-icon { width: 15px; height: 15px; display: block; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .intro { display: flex; justify-content: space-between; align-items: end; gap: 15px; padding: 35px 2px 24px; }
+    .overline { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .17em; text-transform: uppercase; color: var(--violet); }
+    .overline:before { content: ''; background: var(--violet); height: 1px; width: 17px; }
+    h1 { font-size: clamp(31px, 3.65vw, 50px); letter-spacing: -.062em; margin: 11px 0 5px; line-height: 1.04; font-weight: 700; }
+    .intro p { color: #b7aabd; font-size: 13px; margin: 0; line-height: 1.65; }
+    .timestamp { font-family: var(--mono); color: #ab9bb8; font-size: 10px; text-align: right; white-space: nowrap; padding-bottom: 4px; }
+    .grid { display: grid; grid-template-columns: minmax(0, 1.74fr) minmax(330px, .91fr); gap: 18px; align-items: start; }
+    .main-col, .side-col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+    .hero { position: relative; border: 1px solid #664579; border-radius: 15px; padding: 25px 28px 24px; background: radial-gradient(ellipse at 88% 22%, #49216884, transparent 44%), linear-gradient(130deg, #1b1226, #120e1b 80%); overflow: hidden; min-height: 227px; }
+    .hero:after { content: '✦'; position: absolute; right: -11px; top: -46px; color: #9c5bcd12; font-size: 244px; pointer-events: none; transform: rotate(-17deg); }
+    .section-kicker { font: 500 10px var(--mono); letter-spacing: .13em; color: #cdb1e8; text-transform: uppercase; }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-price-line { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 9px; }
+    #price { font-size: clamp(43px, 5.6vw, 79px); font-weight: 700; line-height: 1.07; letter-spacing: -.075em; color: #fff; font-variant-numeric: tabular-nums; }
+    .hero-currency { color: #d9aeff; font: 500 11px var(--mono); border: 1px solid #624675; padding: 5px 8px; border-radius: 5px; align-self: center; }
+    .hero-note { font-size: 12px; margin-top: 12px; color: #b9a6c7; min-height: 18px; }
+    .hero-note.good { color: var(--mint); }.hero-note.bad { color: var(--rose); }
+    .hero-meta { margin-top: 22px; border-top: 1px solid #533c62a8; display: flex; flex-wrap: wrap; gap: 15px 29px; padding-top: 18px; }
+    .hero-meta .datum { display: flex; flex-direction: column; gap: 5px; }
+    .datum span { font: 500 10px var(--mono); letter-spacing: .07em; color: #a98cbf; text-transform: uppercase; }
+    .datum strong { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .surface { background: #130f1acc; border: 1px solid #3f304c; border-radius: 15px; padding: 22px 23px; box-shadow: 0 12px 48px #0002; }
+    .title-row { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+    .title-row h2 { font-size: 19px; letter-spacing: -.045em; font-weight: 700; margin: 0; }
+    .title-row p { color: #a99cb7; font-size: 11px; margin: 5px 0 0; line-height: 1.5; }
+    .inline-meta { font: 500 10px var(--mono); white-space: nowrap; color: #aa94b8; padding: 8px 10px; background: #201729; border: 1px solid #41304e; border-radius: 7px; }
+    .chart-shell { margin-top: 22px; height: 302px; position: relative; }
+    #chart { width: 100%; height: 100%; display: block; cursor: crosshair; }
+    .chart-tooltip { position: absolute; pointer-events: none; z-index: 3; border-radius: 7px; padding: 8px 10px; background: #291c35; border: 1px solid #8a5c9d; color: #fff; box-shadow: 0 7px 20px #0009; font: 500 11px var(--mono); white-space: nowrap; transform: translate(-50%,-115%); display: none; }
+    .chart-tooltip small { display:block; color:#c5acd4; font-size:9px; margin-top:3px; }
+    .chart-foot { padding-top: 15px; display:flex; justify-content:space-between; gap:10px; color:#81758c; font: 500 10px var(--mono); }
+    .portfolio { background: linear-gradient(130deg,#20152d,#160f20); border: 1px solid #4e3565; }
+    .portfolio-top { display:flex; justify-content:space-between; align-items:start; gap:14px; }
+    .portfolio .tag { font: 500 10px var(--mono); text-transform: uppercase; letter-spacing: .13em; color: #b89aca; }
+    .portfolio #profit { margin-top: 11px; font-size: clamp(25px,3.3vw,35px); font-weight: 700; line-height:1.1; color: var(--mint); letter-spacing:-.055em; font-variant-numeric: tabular-nums; }
+    .portfolio #profit.negative { color: var(--rose); }
+    .portfolio .substat { font-size: 12px; margin-top: 10px; color: #bca9cf; }
+    .quantity-pill { background:#2f203d; padding:8px 11px; border:1px solid #5a4071; border-radius:8px; min-width:96px; text-align:center; }
+    .quantity-pill strong { font-size:20px; display:block; }
+    .quantity-pill span { display:block; font:500 9px var(--mono);color:#c1a5d6; margin-top:3px; }
+    .sidebar-top { display:flex; align-items:center; justify-content:space-between; gap:8px; padding-bottom:16px; border-bottom:1px solid #35283f; margin-bottom:19px; }
+    .sidebar-title { font-size: 17px; font-weight: 700; letter-spacing: -.04em; }
+    .sidebar-subtitle { font: 500 10px var(--mono); color: #9f83b5; }
+    .icon-glyph { font-size: 16px; color:#b281da; }
+    .control-group { margin-bottom: 24px; }
+    .control-group:last-child { margin-bottom: 0; }
+    .control-head { display: flex; align-items: center; justify-content:space-between; gap: 12px; margin-bottom: 11px; }
+    .control-head label, label { font: 500 11px var(--mono); color: #cbb6db; }
+    .control-head small { color: #8f7f9e; font: 400 10px var(--mono); }
+    .inputrow { display:flex; gap:9px; }
+    .field { width: 100%; min-width: 0; background: #1d1526; border: 1px solid #503a61; border-radius: 9px; height: 42px; color: #f6edff; padding: 10px 13px; font: 600 13px var(--heading); transition: border-color .15s; }
+    .field:focus { outline:none; border-color: #c48af1; box-shadow: 0 0 0 2px #b47aed26; }
+    .field::placeholder { color: #71617d; }
+    .suffixfield { position: relative; flex: 1; min-width: 0; }
+    .suffixfield .field { padding-right: 34px; }
+    .suffixfield .suffix { position:absolute;right:12px;top:50%;transform:translateY(-50%);font:500 11px var(--mono);color:#ad8dcc;pointer-events:none; }
+    .helper { font-size: 11px; color:#a396ad; line-height:1.55; margin: 8px 0 0; }
+    .saved { font: 500 10px var(--mono); color:#cab7dd; display:flex; gap:7px;align-items:center;margin-top:10px; }
+    .saved::before { content:''; width:5px;height:5px;border-radius:50%;background:#b47ee1; }
+    .rule { height:1px;background:#35273f;margin: 23px 0; }
+    .stacked-buttons { display:grid; grid-template-columns:1fr 1fr;gap:9px;margin-top:12px; }
+    .full { width:100%; }
+    .section-label { font:500 10px var(--mono); color:#bba2cd; letter-spacing:.13em;text-transform:uppercase; margin-bottom:10px; }
+    .setting-line { display:flex;justify-content:space-between;gap:16px;align-items:center; padding:12px 0; }
+    .setting-line strong { font-size:12px; }
+    .setting-line span { color:#a290b4;font:500 10px var(--mono);text-align:right; }
+    .connection { border-top:1px solid #35273f;padding-top:15px;margin-top:7px; }
+    .conn-label { font:500 10px var(--mono);letter-spacing:.12em;color:#c4a8d9;text-transform:uppercase;margin-bottom:8px; }
+    #connection { margin:0; font-size:11px; line-height:1.55; color:#9baaaa; overflow-wrap:anywhere; }
+    #connection.error { color:var(--rose); }
+    .inventory-form { display:grid;grid-template-columns:1fr 1fr;gap:10px; margin:17px 0 12px; }
+    .inventory-form label { display:block; margin-bottom:8px;font-size:10px;color:#a99bb7; }
+    .purchase-list { display:flex;flex-direction:column;gap:7px;margin-top:13px;max-height:260px;overflow:auto;scrollbar-color:#523666 transparent; }
+    .purchase-item { display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 10px 11px 12px;border-radius:8px;background:#1d1725;border:1px solid #32253e; }
+    .purchase-name { font-size: 12px; font-weight:600; }.purchase-sub {font:400 10px var(--mono);color:#9e8cad;margin-top:4px;}
+    .purchase-actions { display:flex;gap:5px;flex-shrink:0; }
+    .purchase-actions button { background:#2c2136;border:1px solid #52395f;color:#d8baf1;padding:7px 8px;border-radius:6px;font:500 10px var(--mono);cursor:pointer; }
+    .purchase-actions button:hover { background:#433051; }
+    .purchase-actions .danger {color:#f0a6b8;}
+    .empty { color:#9f91ad;font-size:12px;line-height:1.6;border:1px dashed #51415c;padding:15px;border-radius:8px;margin-top:14px; }
+    .feedback { display: none; padding:8px 10px; margin-top:10px;font:500 11px var(--mono);border-radius:6px; }
+    .feedback.show { display:block; }
+    .feedback.success { background:#1d342a;color:#a5f4c6; }.feedback.error {background:#3a1d2c;color:#ffc2cb;}
+    .footer { margin:22px 0 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#897b96;font:400 10px var(--mono);line-height:1.65; }
+    .footer a { color:#cba4e8;text-decoration:underline;text-underline-offset:3px; }
+    .footer strong { color:#d3b2e5;font-weight:500; }
+    .sr-only {position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+    @media (max-width: 1100px) { .grid { grid-template-columns:minmax(0, 1fr) 350px; }.shell { width:calc(100% - 32px); }.hero {min-height:216px;} }
+    @media (max-width: 850px) { .grid { grid-template-columns:1fr; }.side-col { display:grid;grid-template-columns:1fr 1fr;align-items:start; }.intro {padding-top:27px;}.chart-shell {height:290px;} }
+    @media (max-width: 620px) { .shell {width:calc(100% - 20px);margin:10px auto;}.topbar {padding:13px;gap:8px;}.wordmark strong {font-size:17px;}.wordmark small {font-size:8px;}.identity img {width:38px;height:38px;}.health-pill{display:none;}.top-actions{gap:6px}.top-actions .btn{padding:9px 10px;font-size:10px;min-height:38px}.intro{padding:27px 4px 18px;align-items:start;}.intro p{font-size:12px;}.timestamp{display:none}.side-col{display:flex}.surface{padding:18px 16px}.hero{padding:23px 18px;}.hero-meta{gap:18px}.chart-shell{height:235px}.inventory-form{grid-template-columns:1fr 1fr}.footer{margin-bottom:20px}.title-row h2{font-size:17px} }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { transition:none!important;animation:none!important; } }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div class="identity">
+      <img src="logo.png" alt="Elytra icon" width="47" height="47">
+      <div class="wordmark"><strong>DONUTSMP<span style="color:#bb7bef">.</span></strong><small>ELYTRA MARKET WATCH</small></div>
+    </div>
+    <div class="top-actions">
+      <div id="topHealth" class="health-pill" role="status" aria-live="polite">CONNECTING</div>
+      <button class="btn ghost" id="check" type="button" title="Check price now"><svg class="top-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2 6M20 4v7h-7"/></svg> Refresh</button>
+      <button class="btn primary" id="miniOpen" type="button"><svg class="top-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5H5v14h14v-4M12 12l8-8M14 4h6v6"/></svg> Mini tracker</button>
+    </div>
+  </header>
+
+  <section class="intro" aria-label="Market overview">
+    <div><span class="overline">THE MARKET DESK / ELYTRA</span><h1>Watch the drop.</h1><p>Live Elytra listings, personal alerts, and your inventory in one place.</p></div>
+    <div class="timestamp">DONUT.AUCTION FEED<br><span id="headerLastChecked">Awaiting first check</span></div>
+  </section>
+
+  <div class="grid">
+    <div class="main-col">
+      <section class="hero" aria-label="Latest Elytra price">
+        <div class="hero-content">
+          <div class="section-kicker">LOWEST VERIFIED ELYTRA LISTING</div>
+          <div class="hero-price-line"><strong id="price" aria-live="polite">—</strong><span class="hero-currency">IN-GAME $</span></div>
+          <div id="status" class="hero-note" role="status" aria-live="polite">Connecting to price source…</div>
+          <div class="hero-meta">
+            <div class="datum"><span>Your alert threshold</span><strong id="heroTarget">$445.00M</strong></div>
+            <div class="datum"><span>Scan frequency</span><strong>Every 60 seconds</strong></div>
+            <div class="datum"><span>Price points</span><strong id="pointCount">0</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="surface" aria-labelledby="historyTitle">
+        <div class="title-row"><div><h2 id="historyTitle">Market movement</h2><p>Verified readings recorded in this browser.</p></div><span class="inline-meta">LIVE SESSION HISTORY</span></div>
+        <div class="chart-shell"><canvas id="chart" role="img" aria-label="Price history graph showing Elytra listing prices"></canvas><div id="chartTooltip" class="chart-tooltip"></div></div>
+        <div class="chart-foot"><span id="firstTime">Waiting for data</span><span id="lastTime">Latest reading —</span></div>
+      </section>
+
+      <section class="surface portfolio" aria-label="Inventory profit and loss">
+        <div class="portfolio-top"><div><div class="tag">YOUR INVENTORY / UNREALIZED PROFIT</div><div id="profit">—</div><div id="profitContext" class="substat">Waiting for a verified market price.</div></div><div class="quantity-pill"><strong id="count">0</strong><span>ELYTRAS OWNED</span></div></div>
+      </section>
+    </div>
+
+    <aside class="side-col" aria-label="Price alert and inventory controls">
+      <section class="surface" aria-labelledby="controlsHeading">
+        <div class="sidebar-top"><div><div class="sidebar-title" id="controlsHeading">Your watchlist</div><div class="sidebar-subtitle">ALERTS & PRICE TARGET</div></div><span class="icon-glyph" aria-hidden="true">✳</span></div>
+        <div class="control-group">
+          <div class="control-head"><label for="target">Notify me at or below</label><small>millions</small></div>
+          <div class="inputrow"><div class="suffixfield"><input class="field" id="target" type="number" inputmode="decimal" min="0.01" step="any" value="445" aria-label="Target price in millions"><span class="suffix">M</span></div><button class="btn primary" type="button" id="saveTarget">Save target</button></div>
+          <div id="targetSaved" class="saved">Current alert: $445.00M</div>
+          <div id="targetFeedback" class="feedback" role="status" aria-live="polite"></div>
+        </div>
+        <div class="rule"></div>
+        <div class="control-group">
+          <div class="section-label">NOTIFICATIONS</div>
+          <div class="setting-line"><strong>Browser notifications</strong><span id="permissionLabel">Checking…</span></div>
+          <button class="btn ghost full" id="notify" type="button">Enable PC notifications ↗</button>
+          <div class="stacked-buttons"><button class="btn subtle" id="test" type="button">Test alert</button><button class="btn subtle" id="openAuction" type="button">Auction ↗</button></div>
+          <p class="helper">Alerts work while this website is open in your browser. Only verified prices trigger an alert.</p>
+        </div>
+        <div class="connection">
+          <div class="conn-label">CONNECTION DIAGNOSTICS</div>
+          <p id="connection">Connecting to Donut.Auction price server…</p>
+          <p class="helper" id="lastChecked">Last check: Never</p>
+        </div>
+      </section>
+
+      <section class="surface" aria-labelledby="inventoryTitle">
+        <div class="title-row"><div><h2 id="inventoryTitle">Your purchases</h2><p>Track every Elytra and your entry price.</p></div></div>
+        <div class="inventory-form"><div><label for="quantity">Quantity</label><input class="field" id="quantity" type="number" min="1" step="1" placeholder="18" inputmode="numeric"></div><div><label for="buyPrice">Price per Elytra ($M)</label><input class="field" id="buyPrice" type="number" min="0.01" step="any" placeholder="340" inputmode="decimal"></div></div>
+        <button id="add" class="btn primary full" type="button">+ Add purchase</button>
+        <div id="purchaseFeedback" class="feedback" role="status"></div>
+        <div id="purchases" class="purchase-list" aria-live="polite"></div>
+        <p class="helper">Purchase details are saved to this browser. Edit quantity or remove an entry anytime.</p>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer"><div><strong>TechyMC → ORIGINAL DESIGNER</strong> · Automatic checks every 60 seconds · Keep this tab open for notifications</div><div>Credits to <a href="https://donut.auction/" target="_blank" rel="noopener noreferrer">Donut.Auction</a> · Unofficial fan-made tracker</div></footer>
+</div>
 <script>
 'use strict';
 const $=id=>document.getElementById(id);
-const store=(k,v)=>{try{localStorage.setItem('elytra_'+k,JSON.stringify(v))}catch{}};
-const load=(k,def)=>{try{return JSON.parse(localStorage.getItem('elytra_'+k))??def}catch{return def}};
-const fmt=v=>{const abs=Math.abs(v);return (v<0?'−':'')+'$'+(abs>=1e9?(abs/1e9).toFixed(3)+'B':(abs/1e6).toFixed(2)+'M')};
+const store=(k,v)=>{try{localStorage.setItem('elytra_'+k,JSON.stringify(v));}catch{}};
+const load=(k,def)=>{try{return JSON.parse(localStorage.getItem('elytra_'+k))??def;}catch{return def;}};
+const fmt=v=>{const x=Math.abs(v),s=x>=1e12?(x/1e12).toFixed(2)+'T':x>=1e9?(x/1e9).toFixed(3)+'B':(x/1e6).toFixed(2)+'M';return (v<0?'−':'')+'$'+s;};
+const time=t=>new Date(t).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
 let history=load('history',[]),purchases=load('purchases',[]),target=Number(load('target',445))||445,lastPrice=null,busy=false,alerted=false;
-// Compatibility with purchases saved by the earlier website, which stored one number per Elytra.
-purchases=purchases.map(p=>typeof p==='number'?{qty:1,each:p}:p).filter(p=>p&&Number.isInteger(p.qty)&&p.qty>0&&Number.isFinite(p.each)&&p.each>0);
-history=history.filter(x=>x&&Number.isFinite(x.p)&&Number.isFinite(x.t)).slice(-150);
-function renderTarget(){
-  $('targetSaved').textContent='Current saved target: '+fmt(target*1e6);
-}
+let hoveredIndex=-1;
+if(!Array.isArray(history))history=[];
+history=history.filter(v=>v&&Number.isFinite(v.p)&&v.p>0&&Number.isFinite(v.t)).slice(-150);
+if(!Array.isArray(purchases))purchases=[];
+purchases=purchases.map(p=>typeof p==='number'?{qty:1,each:p}:p).filter(p=>p&&Number.isSafeInteger(p.qty)&&p.qty>0&&Number.isFinite(p.each)&&p.each>0);
+if(!Number.isFinite(target)||target<=0)target=445;
 $('target').value=target;
+function showFeedback(id,message,success=true){const el=$(id);el.textContent=message;el.className='feedback show '+(success?'success':'error');}
+function renderTarget(){ $('targetSaved').textContent='Current alert: '+fmt(target*1e6);$('heroTarget').textContent=fmt(target*1e6); }
 renderTarget();
-function saveTarget(){
-  const raw=$('target').value.trim();
-  const n=Number(raw);
-  if(!raw||!Number.isFinite(n)||n<=0){
-    alert('Enter a valid target price greater than 0 (in millions).');
-    $('target').value=target;
-    return;
-  }
-  target=n;
-  store('target',target);
-  alerted=false;
-  renderTarget();
-  $('targetSaved').textContent='Saved! Target price: '+fmt(target*1e6);
+function saveTarget(){const raw=$('target').value.trim(),n=Number(raw);if(!raw||!Number.isFinite(n)||n<=0||n>1e7){showFeedback('targetFeedback','Enter a valid price in millions.',false);return;}target=n;store('target',target);alerted=false;renderTarget();showFeedback('targetFeedback','Saved. You’ll be alerted at '+fmt(target*1e6)+' or below.');}
+$('saveTarget').addEventListener('click',saveTarget);
+$('target').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveTarget();}});
+$('miniOpen').addEventListener('click',()=>{const pop=window.open('mini.html','elytraMini','popup=yes,width=410,height=545,resizable=yes,scrollbars=yes');if(pop)pop.focus();else alert('Please allow popups for this website to open the mini tracker.');});
+$('openAuction').addEventListener('click',()=>window.open('https://donut.auction/item/c4c7f62a-d21a-4e94-b6a3-355a15349705','_blank','noopener,noreferrer'));
+function permission(){const p=('Notification'in window)?Notification.permission:'unsupported';$('notify').textContent=p==='granted'?'Notifications enabled ✓':p==='denied'?'Notifications blocked':'Enable PC notifications ↗';$('permissionLabel').textContent=p==='granted'?'ENABLED':p==='denied'?'BLOCKED':p==='unsupported'?'NOT SUPPORTED':'NOT ENABLED';}
+$('notify').addEventListener('click',async()=>{if(!('Notification'in window)){alert('This browser does not support PC notifications.');return;}if(!window.isSecureContext){alert('Notifications require HTTPS.');return;}try{const p=await Notification.requestPermission();if(p==='denied')alert('Notifications are blocked. Change the permission in your browser’s site settings.');}catch(e){alert('Could not enable notifications: '+e.message);}permission();});
+$('test').addEventListener('click',()=>{if('Notification'in window&&Notification.permission==='granted')new Notification('DonutSMP · Test alert',{body:'Your market watch notifications are ready.',icon:'logo.png'});else alert('Enable PC notifications and allow them in your browser first.');});
+function renderPurchases(){const count=purchases.reduce((s,p)=>s+p.qty,0);$('count').textContent=count.toLocaleString();const profit=lastPrice===null||!purchases.length?null:purchases.reduce((s,p)=>s+p.qty*(lastPrice-p.each),0);$('profit').textContent=profit===null?'—':(profit>0?'+':'')+fmt(profit);$('profit').classList.toggle('negative',profit!==null&&profit<0);$('profitContext').textContent=profit===null?(lastPrice===null?'Waiting for a verified market price.':'Add a purchase to start tracking profit.'):`Across ${count.toLocaleString()} Elytra${count===1?'':'s'} at the latest verified listing price.`;const root=$('purchases');root.replaceChildren();if(!purchases.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='No purchases yet. Add one above to see your inventory and profit.';root.append(empty);return;}purchases.forEach((p,i)=>{const item=document.createElement('div');item.className='purchase-item';const info=document.createElement('div');info.style.minWidth='0';const name=document.createElement('div');name.className='purchase-name';name.textContent=p.qty+' Elytra'+(p.qty===1?'':'s');const sub=document.createElement('div');sub.className='purchase-sub';sub.textContent=fmt(p.each)+' each';info.append(name,sub);const actions=document.createElement('div');actions.className='purchase-actions';const edit=document.createElement('button');edit.type='button';edit.textContent='EDIT';edit.setAttribute('aria-label','Edit quantity for purchase '+(i+1));edit.addEventListener('click',()=>{const ans=prompt('New Elytra quantity:',String(p.qty));if(ans===null)return;const n=Number(ans.trim());if(!Number.isSafeInteger(n)||n<1){alert('Quantity must be a whole number of at least 1.');return;}purchases[i].qty=n;store('purchases',purchases);renderPurchases();});const del=document.createElement('button');del.type='button';del.textContent='×';del.className='danger';del.setAttribute('aria-label','Remove purchase '+(i+1));del.addEventListener('click',()=>{purchases.splice(i,1);store('purchases',purchases);renderPurchases();});actions.append(edit,del);item.append(info,actions);root.append(item);});}
+$('add').addEventListener('click',()=>{const qty=Number($('quantity').value),each=Number($('buyPrice').value)*1e6;if(!Number.isSafeInteger(qty)||qty<1||!Number.isFinite(each)||each<=0){showFeedback('purchaseFeedback','Enter a whole-number quantity and valid price.',false);return;}purchases.push({qty,each});store('purchases',purchases);$('quantity').value='';$('buyPrice').value='';renderPurchases();showFeedback('purchaseFeedback','Purchase added to your inventory.');});
+function drawChart(){
+ const c=$('chart'),r=c.getBoundingClientRect(),w=Math.max(240,r.width),h=Math.max(170,r.height),dpr=Math.min(window.devicePixelRatio||1,2);c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);const L=64,R=13,T=17,B=25,plotW=w-L-R,plotH=h-T-B;const vals=history.map(p=>p.p),min=vals.length?Math.min(...vals):390e6,max=vals.length?Math.max(...vals):400e6;const pad=Math.max((max-min)*.21,1.5e6),lo=min-pad,hi=max+pad;const y=v=>T+(hi-v)/(hi-lo)*plotH;const xp=i=>L+plotW*(history.length<=1?.5:i/(history.length-1));
+ ctx.font='10px "DM Mono", monospace';ctx.textBaseline='middle';ctx.textAlign='right';for(let i=0;i<5;i++){const val=hi-(hi-lo)*i/4,py=T+i*plotH/4;ctx.strokeStyle='#37283f';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(L,py);ctx.lineTo(w-R,py);ctx.stroke();ctx.fillStyle='#9384a1';ctx.fillText('$'+(val/1e6).toFixed(1)+'M',L-10,py);}
+ if(history.length===0){ctx.fillStyle='#a997b9';ctx.textAlign='center';ctx.font='12px "Space Grotesk",sans-serif';ctx.fillText('Waiting for the first verified reading',L+plotW/2,h/2);return;}
+ const gradient=ctx.createLinearGradient(0,T,0,h-B);gradient.addColorStop(0,'#b975e94d');gradient.addColorStop(1,'#b975e900');ctx.beginPath();history.forEach((p,i)=>{if(i===0)ctx.moveTo(xp(i),y(p.p));else ctx.lineTo(xp(i),y(p.p));});ctx.lineTo(xp(history.length-1),h-B);ctx.lineTo(xp(0),h-B);ctx.closePath();ctx.fillStyle=gradient;ctx.fill();
+ ctx.beginPath();history.forEach((p,i)=>{if(i===0)ctx.moveTo(xp(i),y(p.p));else ctx.lineTo(xp(i),y(p.p));});ctx.lineJoin='round';ctx.strokeStyle='#d2a0ff';ctx.lineWidth=2.4;ctx.stroke();
+ const index=hoveredIndex>=0&&hoveredIndex<history.length?hoveredIndex:history.length-1,px=xp(index),py=y(history[index].p);if(hoveredIndex>=0){ctx.strokeStyle='#aa7fc166';ctx.setLineDash([4,5]);ctx.beginPath();ctx.moveTo(px,T);ctx.lineTo(px,h-B);ctx.stroke();ctx.setLineDash([]);}ctx.beginPath();ctx.arc(px,py,5,0,2*Math.PI);ctx.fillStyle='#d5adff';ctx.fill();ctx.beginPath();ctx.arc(px,py,2.4,0,2*Math.PI);ctx.fillStyle='#281532';ctx.fill();
+ $('pointCount').textContent=history.length.toLocaleString();$('firstTime').textContent=time(history[0].t);$('lastTime').textContent='LATEST '+time(history[history.length-1].t);
 }
-$('saveTarget').onclick=saveTarget;
-$('target').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveTarget()}});
-
-$('miniOpen').onclick=()=>{const popup=window.open('mini.html','elytraMini','popup=yes,width=370,height=405,resizable=yes,scrollbars=yes');if(popup)popup.focus();else alert('Please allow popups for this website to open the mini tracker.');};
-$('openAuction').onclick=()=>window.open('https://donut.auction/item/c4c7f62a-d21a-4e94-b6a3-355a15349705','_blank','noopener,noreferrer');
-function permission(){const p=('Notification' in window)?Notification.permission:'unsupported';$('notify').textContent=p==='granted'?'NOTIFICATIONS ENABLED':p==='denied'?'NOTIFICATIONS BLOCKED':'ENABLE PC NOTIFICATIONS';}
-$('notify').onclick=async()=>{if(!('Notification'in window)){alert('Your browser does not support notifications.');return}if(!window.isSecureContext){alert('Notifications require HTTPS.');return}try{await Notification.requestPermission()}catch(e){alert(e.message)}permission()};
-$('test').onclick=()=>{if('Notification'in window&&Notification.permission==='granted'){new Notification('DonutSMP Elytra Alarm',{body:'This is a test notification.',icon:'logo.png'})}else{alert('Click ENABLE PC NOTIFICATIONS and allow notifications first.')}};
-function renderPurchases(){const count=purchases.reduce((s,p)=>s+p.qty,0);$('count').textContent=count.toLocaleString();const profit=lastPrice===null?null:purchases.reduce((s,p)=>s+p.qty*(lastPrice-p.each),0);$('profit').textContent='Owned: '+count.toLocaleString()+' • Est. P/L: '+(profit===null?'—':(profit>=0?'+':'')+fmt(profit));$('profit').classList.toggle('negative',profit!==null&&profit<0);$('purchases').replaceChildren();if(!purchases.length){const d=document.createElement('div');d.className='help';d.textContent='No purchases saved yet.';$('purchases').append(d)}purchases.forEach((p,i)=>{const d=document.createElement('div');d.className='purchase';const s=document.createElement('span');s.textContent=p.qty+' Elytra'+(p.qty===1?'':'s')+' @ '+fmt(p.each)+' each';const b=document.createElement('button');b.className='warn';b.textContent='DELETE';b.onclick=()=>{purchases.splice(i,1);store('purchases',purchases);renderPurchases()};const edit=document.createElement('button');edit.className='secondary';edit.textContent='EDIT QTY';edit.setAttribute('aria-label','Edit Elytra quantity for purchase '+(i+1));edit.onclick=()=>{const answer=prompt('How many Elytras are in this purchase?',String(p.qty));if(answer===null)return;const value=Number(answer.trim());if(!Number.isSafeInteger(value)||value<1){alert('Enter a whole number of at least 1.');return}purchases[i].qty=value;store('purchases',purchases);renderPurchases()};const controls=document.createElement('div');controls.className='purchase-actions';controls.append(edit,b);d.append(s,controls);$('purchases').append(d)})}
-$('add').onclick=()=>{const qty=Number($('quantity').value),each=Number($('buyPrice').value)*1e6;if(!Number.isSafeInteger(qty)||qty<1||!(each>0)||!Number.isFinite(each)){alert('Enter a valid Elytra quantity and price in millions.');return}purchases.push({qty,each});store('purchases',purchases);$('quantity').value='';$('buyPrice').value='';renderPurchases()};
-function chart(){const c=$('chart'),rect=c.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2),w=Math.max(300,rect.width),h=Math.max(180,rect.height);c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);const L=58,R=12,T=22,B=25,plotH=h-T-B;ctx.strokeStyle='#42304e';ctx.lineWidth=1;ctx.font='11px Arial';ctx.fillStyle='#a89ab6';const vals=history.map(x=>x.p);const min=vals.length?Math.min(...vals):380e6,max=vals.length?Math.max(...vals):400e6;const pad=Math.max((max-min)*.2,2e6),lo=min-pad,hi=max+pad;for(let i=0;i<5;i++){const y=T+i*plotH/4;ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(w-R,y);ctx.stroke();ctx.fillText((hi-(hi-lo)*i/4)/1e6+'M',4,y+4)}if(!history.length){ctx.fillText('Waiting for verified prices…',L+20,h/2);$('firstTime').textContent='No verified prices yet';$('lastTime').textContent='';return}const time=t=>new Date(t).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});$('firstTime').textContent=time(history[0].t);$('lastTime').textContent=time(history[history.length-1].t);ctx.strokeStyle='#d873fa';ctx.lineWidth=2;ctx.beginPath();history.forEach((p,i)=>{const x=L+i*(w-L-R)/Math.max(history.length-1,1),y=T+(hi-p.p)/(hi-lo)*plotH;if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y)});ctx.stroke();ctx.fillStyle='#e589ff';history.forEach((p,i)=>{const x=L+i*(w-L-R)/Math.max(history.length-1,1),y=T+(hi-p.p)/(hi-lo)*plotH;ctx.beginPath();ctx.arc(x,y,2.5,0,Math.PI*2);ctx.fill()})}
-window.addEventListener('resize',chart);
-async function check(){if(busy)return;busy=true;$('status').textContent='Checking Donut.Auction…';try{const response=await fetch('/api/price',{cache:'no-store'});if(!response.ok)throw Error('Server returned '+response.status);const data=await response.json();if(data.verified!==true||!Number.isFinite(data.price)||data.price<=0)throw Error(data.error||'No verified price available');lastPrice=data.price;$('price').textContent=fmt(lastPrice);$('status').textContent='Connected • Latest price verified';$('status').className='status ok';$('connection').textContent='Verified price received from Donut.Auction';$('connection').className='';history.push({p:lastPrice,t:Date.now()});history=history.slice(-150);store('history',history);chart();renderPurchases();if(lastPrice<=target*1e6&&!alerted){if('Notification'in window&&Notification.permission==='granted')new Notification('DonutSMP Elytra Price Alert!',{body:'Verified Elytra price: '+fmt(lastPrice)+' • Your target: '+fmt(target*1e6),icon:'logo.png'});alerted=true}if(lastPrice>target*1e6)alerted=false}catch(err){$('status').textContent='Price not verified';$('status').className='status error';$('connection').textContent='Price check failed: '+err.message;$('connection').className='error'}finally{$('lastChecked').textContent='Last checked: '+new Date().toLocaleTimeString();busy=false}}
-$('check').onclick=check;permission();renderPurchases();requestAnimationFrame(chart);check();setInterval(check,60000);
-</script></body></html>
+$('chart').addEventListener('mousemove',e=>{if(!history.length)return;const rect=$('chart').getBoundingClientRect(),x=e.clientX-rect.left,w=Math.max(240,rect.width),inner=w-77;hoveredIndex=history.length<=1?0:Math.max(0,Math.min(history.length-1,Math.round((x-64)/inner*(history.length-1))));const point=history[hoveredIndex],tx=$('chartTooltip');tx.innerHTML='';const txt=document.createElement('div');txt.textContent=fmt(point.p);const t=document.createElement('small');t.textContent=time(point.t);tx.append(txt,t);tx.style.display='block';tx.style.left=Math.max(68,Math.min(rect.width-50,x))+'px';tx.style.top='42px';drawChart();});
+$('chart').addEventListener('mouseleave',()=>{hoveredIndex=-1;$('chartTooltip').style.display='none';drawChart();});
+window.addEventListener('resize',drawChart);
+window.addEventListener('storage',e=>{if(e.key==='elytra_purchases'){const next=load('purchases',[]);if(Array.isArray(next)){purchases=next.map(p=>typeof p==='number'?{qty:1,each:p}:p).filter(p=>p&&Number.isSafeInteger(p.qty)&&p.qty>0&&Number.isFinite(p.each)&&p.each>0);renderPurchases();}}});
+async function check(){if(busy)return;busy=true;$('status').textContent='Checking the Donut.Auction market…';try{const r=await fetch('/api/price',{cache:'no-store'});if(!r.ok)throw Error('Price server returned '+r.status);const d=await r.json();if(d.verified!==true||!Number.isFinite(d.price)||d.price<=0)throw Error(d.error||'The server did not verify a live price.');lastPrice=d.price;$('price').textContent=fmt(lastPrice);$('status').textContent='● Price verified · Connected to Donut.Auction';$('status').className='hero-note good';$('topHealth').textContent='PRICE FEED LIVE';$('topHealth').className='health-pill ok';$('connection').textContent='Live price verified. Connected to price server.';$('connection').className='';history.push({p:lastPrice,t:Date.now()});history=history.slice(-150);store('history',history);drawChart();renderPurchases();if(lastPrice<=target*1e6&&!alerted){if('Notification'in window&&Notification.permission==='granted'){try{new Notification('DonutSMP · Elytra price alert',{body:fmt(lastPrice)+' is at or below your target '+fmt(target*1e6),icon:'logo.png'});alerted=true;}catch{}}}if(lastPrice>target*1e6)alerted=false;}catch(err){$('status').textContent='Price not verified · See connection diagnostics';$('status').className='hero-note bad';$('topHealth').textContent='FEED UNAVAILABLE';$('topHealth').className='health-pill bad';$('connection').textContent='Price check failed: '+err.message;$('connection').className='error';}finally{$('lastChecked').textContent='Last check: '+new Date().toLocaleTimeString();$('headerLastChecked').textContent='LAST CHECK '+time(Date.now());busy=false;}}
+$('check').addEventListener('click',check);
+permission();renderPurchases();drawChart();check();setInterval(check,60000);
+</script>
+</body>
+</html>
